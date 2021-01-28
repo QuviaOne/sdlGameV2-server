@@ -9,6 +9,7 @@ module.exports.on("listening", () => {
     require("./on/listening.js")(module.exports);
 });
 module.exports.on("message", (data, info) => {
+    console.log("MSG here.")
     try {
         var d = JSON.parse(data.toString());
     } catch (e) {
@@ -17,7 +18,7 @@ module.exports.on("message", (data, info) => {
         return;
     }
     if (!fs.existsSync(path.join(__dirname, "./action/" + d.id + ".js"))) {
-        module.exports.send("Action not found.", info.port, info.address);
+        console.log("Action not found ", d.id + ". From port", info.port, "at", info.address);
         return;
     }
     require(path.join(__dirname, "./action/" + d.id + ".js"))(module.exports, data, info);
